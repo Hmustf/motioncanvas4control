@@ -1,6 +1,7 @@
 import {makeProject} from '@motion-canvas/core';
-import pidBlockDiagram from './scenes/pidBlockDiagram?scene';
+
+import pidBlockDiagram_num from './scenes/pidBlockDiagram_num?scene';
 
 export default makeProject({
-  scenes: [pidBlockDiagram],
+  scenes: [pidBlockDiagram_num],
 });
