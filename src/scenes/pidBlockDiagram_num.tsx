@@ -446,10 +446,22 @@ export default makeScene2D(function* (view) {
   // Remove feedback line by reversing its creation animation
   yield* feedbackLine().end(0, 1.2, easeInOutCubic);
 
+  // Remove summation circle and its components with fade out
+  yield* all(
+    sumCircle().opacity(0, 0.5),
+    crossLine1().opacity(0, 0.5),
+    crossLine2().opacity(0, 0.5),
+    plusSymbol().opacity(0, 0.5),
+    minusSymbol().opacity(0, 0.5),
+  );
+
   // Shorten input and output lines for final block
   yield* all(
-    errorLine().points([[-510, 0], [-325, 0]], 0.8, easeInOutCubic),   // Shorten to final block
-    outputLine().points([[475, 0], [660, 0]], 0.8, easeInOutCubic),    // Shorten from final block
+    errorLine().opacity(0, 0.5),  // Hide error line
+    inputLine().points([[-510, 0], [-325, 0]], 0.8, easeInOutCubic),  // Extend input line
+    outputLine().points([[475, 0], [660, 0]], 0.8, easeInOutCubic),
+    // Move input label to new position
+    inputText().position.x(-435, 0.8, easeInOutCubic),
   );
 
   // Transform to final form
@@ -470,5 +482,22 @@ export default makeScene2D(function* (view) {
     finalEqText().scale(1, 0.5, easeInOutCubic),
   );
 
-  yield* waitFor(1);
+  // Wait for 5 seconds to show the final result
+  yield* waitFor(5);
+
+  // Final fade out of all remaining elements
+  yield* all(
+    // Fade out lines
+    inputLine().opacity(0, 1, easeInOutCubic),
+    outputLine().opacity(0, 1, easeInOutCubic),
+    // Fade out labels
+    inputText().opacity(0, 1, easeInOutCubic),
+    outputText().opacity(0, 1, easeInOutCubic),
+    // Fade out final block and equation
+    finalBox().opacity(0, 1, easeInOutCubic),
+    finalEqText().opacity(0, 1, easeInOutCubic),
+    combinedBox().opacity(0, 1, easeInOutCubic),
+  );
+
+  yield* waitFor(0.5);
 }); 
